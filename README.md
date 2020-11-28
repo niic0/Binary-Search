@@ -4,13 +4,19 @@
 >
 > Projet fait par Ines Lebib et Nicolas Fond-Massany
 
+## Introduction
+
+Ce README.md sert d'explication au code du projet. Tous les codes sont dans le répertoire github mais aucun n'a d’annotation " // ", c'est pourquoi le code est ici repris partie par partie avec des annotations pour mieux comprendre ainsi qu'une description détaillée. Ce projet est sur Github pour simplifier les échanges de codes entre binôme et pour mieux prendre en main cet outil. 
+
 ## Canevas 
 
-/* A remplir */
+Pour commencer, on doit instaurer un cadre qui nous permettra de créer les éléments utiles aux projet. On créer donc un Makefile, principal.c, text_to_tab.c, text_tot_tab.h, manip_ABR.c, manip_ABR.h, recherche.c. Les fichiers permettant de chronométré notre programme sont donné avec le sujet du projet.  On peut faire, une fois le terminal dans le répertoire voulue :
+
+` touch Makefile, principal.c text_to_tab.c text_tot_tab.h manip_ABR.c manip_ABR.h recherche.c `
 
 ## Du .txt au tableau
 
-Le but est de connaître mettre des caractères dans un tableau de caractères et de savoir à quelle est le premier caractère de chaque ligne.
+Le but de cette partie est de mettre des caractères dans un tableau de caractères et de savoir quelle est le premier caractère de chaque ligne.
 On va créer 2 tableaux: ```T[ ]``` de type *char* qui contiendra tous les caractères du fichier et ```L[ ]``` de type *int* qui contiendra la position du premier caractère de chaque ligne de façon à savoir que, par exemple, c'est le caractère 243 qui commence la ligne 4. On notera alors `L[4] = 243`.
 
 Pour ce faire on va utiliser la librairie *stdio.h* qui va nous permettre de prendre le fichier pris en argument dans la fonction *main* de *principal.c* pour ensuite l'ouvrir en mode écriture et se servir de ``fgetc(F)`` pour mettre dans notre tableau de caractère T tous les caractères du fichier F. Dans un même temps on mettra dans le tableau d'entier L le caractère de début de chaque ligne. Si on a un retour chariot, c'est qu'on est sur une nouvelle ligne, en partant de ce principe on peut mettre un simple if mais attention, il ne faut pas mettre `fgetc(F)` car cette fonction fait avancer la lecture des caractères de un à chaque appel. On mettra donc simplement `if (T[i] == '\n')`.  
