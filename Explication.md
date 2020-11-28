@@ -28,20 +28,20 @@ void text_to_tab (char *text) {
   FILE *F = fopen(text,"r");				// Ouverture du fichier texte 
   FILE *tmp = fopen(text,"r");				// en mode "read"
 
-  if (!F || !tmp) {							// Si le fichier n'éxiste pas
+  if (!F || !tmp) {					// Si le fichier n'éxiste pas
     printf("\nFichier inéxistant \n\n");
-    exit(2);								// On arrête le programme si le  
-  }											// fichier n'éxiste pas
+    exit(2);						// On arrête le programme  
+  }											
 
   struct stat buf;
   stat(text, &buf);
   int nbr_char = buf.st_size;				// On met dans nbr_char (qu'on 
-    										//aurait put appeler taille_fic)
-  int nbr_lignes = 1;						// le nombre de caractères du texte
+    							//aurait put appeler taille_fic)
+  int nbr_lignes = 1;					// le nombre de caractères du texte
   int k = 0;
-  while (k<=nbr_char) {						// On compte ici les lignes pour 
-    if (fgetc(tmp) == '\n') nbr_lignes++;	// avoir un malloc qui aloue le 
-    k++;									// bon nombre de mémoire
+  while (k<=nbr_char) {					// On compte ici les lignes pour 
+    if (fgetc(tmp) == '\n') nbr_lignes++;	        // avoir un malloc qui aloue le 
+    k++;						// bon nombre de mémoire
   }
 
   fclose(tmp);
@@ -53,12 +53,12 @@ void text_to_tab (char *text) {
   int y = 1;									 
 												
   while (i<=taille_fic) {
-    T[i] = fgetc(F);					// On prend le premier caractère
+    T[i] = fgetc(F);				// On prend le premier caractère
     printf("T[%d] = %c\n",i,T[i]);		// On vérifie si T[i] à la bonne valeur
-    if(T[i] == '\n') {					// Si il y a un retour à la ligne 
-      L[y] = i+1;						// c'est que le prochain caractère 
-      printf("L[%d] = %d\n",y,L[y]);	// sera le premier caractère de la ligne
-      y++;								// On vérifie que L[y] à la bonne valeur
+    if(T[i] == '\n') {				// Si il y a un retour à la ligne 
+      L[y] = i+1;				// c'est que le prochain caractère 
+      printf("L[%d] = %d\n",y,L[y]);	        // sera le premier caractère de la ligne
+      y++;					// On vérifie que L[y] à la bonne valeur
     }
     i++;
   }
