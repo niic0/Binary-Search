@@ -1,17 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "text_to_tab.h"
+#include "avl_fct.h"
+#include "avl_search.h"
+#include "affiche_avl.h"
 
-int main (int argc, char *argv[]) {
-  char* T = text_to_tab(argv[1]);
-  int* L = first_char(argv[1]);
+int main (int argc, char *argv[]){
+  AVL *A = NULL;
+  AVL *noeud_a_trouver = NULL;
 
-  for (int i = 0 ; i<100 ; i++) {
-    printf("%5d",L[i]);
-  }
+  A = tab_to_AVL(A,argv[1]);
+  structure(A,0);
+  noeud_a_trouver = search(A,"b");
+  printf("Structure du noeud trouvé\n");
+  structure(noeud_a_trouver,0);
+//  affichage_avl(noeud_a_trouver,argv[1]);
 
-  for (int y=0 ; y<100 ; y++) {
-    printf("%c",T[y]);
-  }
+  libere_memoire(A);
+
   return 0;
 }

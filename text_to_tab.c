@@ -11,8 +11,8 @@ void verif_fic(char *fic) {
   }
 }
 
-void affiche_erreur() {
-  printf("\nAllocation échouée \n\n");
+void allocation_erreur () {
+  printf("\nAllocation échouée\n\n");
   exit(EXIT_FAILURE);
 }
 
@@ -28,29 +28,30 @@ int taille_fic (char *fic) {
   return nbr_char;
 }
 
+// Compte le nombre de lignes
 int cmt_lignes (char *text) {
   FILE *F = fopen(text,"r");
   verif_fic(text);
 
-  int nbr_char = taille_fic(text);
+  int nbr_char = taille_fic (text);
   int nbr_lignes = 1;
 
-  for (int i=0 ; i<=nbr_char ; i++) {
+  for (int i=0 ; i<=nbr_char ; i++)
     if (fgetc(F) == '\n') nbr_lignes++;
-  }
 
   fclose(F);
   return nbr_lignes;
 }
 
-char *text_to_tab (char *text) {
+// Mettre tous les caractères dans un tableau
+char* char_to_tab (char *text) {
   FILE *F = fopen(text,"r");
   verif_fic(text);
 
   int nbr_char = taille_fic(text);
 
   char *T = malloc(nbr_char*(sizeof(char)));
-  if(T == NULL) affiche_erreur();
+  if(T == NULL) allocation_erreur();
 
   for (int i=0 ; i<=nbr_char ; i++) T[i] = fgetc(F);
 
@@ -58,7 +59,8 @@ char *text_to_tab (char *text) {
   return T;
 }
 
-int *first_char (char *text) {
+//
+int* first_char (char *text) {
   FILE *F = fopen(text,"r");
   verif_fic(text);
 
@@ -66,14 +68,14 @@ int *first_char (char *text) {
   int nbr_lignes = cmt_lignes(text);
 
   int *L = malloc(nbr_lignes*(sizeof(int)));
-  if(L == NULL) affiche_erreur();
+  if(L == NULL) allocation_erreur();
 
-  int y = 1;
+  int ligne = 1;
 
   for (int i=0 ; i<=nbr_char ; i++) {
     if(fgetc(F) == '\n') {
-      L[y] = i+1;
-      y++;
+      L[ligne] = i+1;
+      ligne++;
     }
   }
 

@@ -1,15 +1,15 @@
+objets = principal.o avl_fct.o text_to_tab.o avl_search.o affiche_avl.o
+
 run: compil
-	./dico pg31469.txt
+	./dico test
 
-compil: text_to_tab.o principal.o
-	gcc -o dico text_to_tab.o principal.o
+compil: $(objets)
+	gcc -o dico $(objets)
 
-text_to_tab.o:
-	gcc -c text_to_tab.c
-
-principal.o:
-	gcc -c principal.c
+%.o: %.c
+	gcc -o $@ -c $< -Wall
 
 clean:
-	rm -f *.o
-	rm -f dico
+	rm *.o
+	rm dico
+	clear
