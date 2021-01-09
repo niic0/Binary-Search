@@ -7,22 +7,27 @@
 #include "avl_search.h"
 
 int main (int argc, char *argv[]){
-
   AVL *A = NULL;
   AVL *noeud_a_trouver = NULL;
 
   A = tab_to_AVL(A,argv[1]);
 
+  // Si pas d'arguments
   if(!argv[2]) {
     char* mot;
+    srand(getpid());
     chrono_reset();
     for (int i=0 ; i<1000 ; i++) {
+
+      srand(getpid());
       mot = mot_alea(A);
       noeud_a_trouver = search(A,mot);
     }
-    printf("Recherche : %f s\n\n", chrono_lap());
+
+    printf("Recherche pour 1000 mots : %f s\n\n", chrono_lap());
   }
 
+  // S'il y a des arguments
   for(int k=2 ; k<argc ; k++) {  // On commence par 2 pour obtenir le/les mots pris en, argument
     chrono_reset();
     noeud_a_trouver = search(A,argv[k]);
@@ -31,6 +36,5 @@ int main (int argc, char *argv[]){
   }
 
   libere_memoire(A);
-
   return 0;
 }

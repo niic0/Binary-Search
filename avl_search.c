@@ -56,7 +56,7 @@ AVL *insert_mot (AVL* A, char *mot, int ligne) {
 AVL *tab_to_AVL (AVL* A, char *fic) {
   chrono_reset();
   char *T = char_to_tab(fic);
-  printf("\nInitialisation : %f \n", chrono_lap());
+  printf("\nInitialisation : %f s\n", chrono_lap());
 
   int nbr_char = taille_fic(fic);
 
@@ -83,8 +83,12 @@ AVL *tab_to_AVL (AVL* A, char *fic) {
     if(T[i] == '\n')
       ligne_actuelle++;
   }
-  
-  printf("Construction AVL : %f \n", chrono_lap());
 
+  printf("Construction AVL : %f s\n", chrono_lap());
+
+  free(T);
+  free(mot_tmp);
+  free(mot_abr);
+  
   return A;
 }

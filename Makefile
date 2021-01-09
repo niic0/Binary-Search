@@ -1,7 +1,7 @@
 objets = principal.o avl_fct.o text_to_tab.o avl_search.o chrono.o
 
 run: compil
-	./dico the_shunned_house.txt century ebooks
+	./dico the_shunned_house.txt
 
 compil: $(objets)
 	gcc -o dico $(objets)
@@ -12,4 +12,3 @@ compil: $(objets)
 clean:
 	rm *.o
 	rm dico
-	clear

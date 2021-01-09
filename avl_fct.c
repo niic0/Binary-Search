@@ -26,31 +26,33 @@ void libere_memoire(AVL *A){
   if(A){
     libere_memoire(A->fg);
     libere_memoire(A->fd);
+    free(A->mot);
+    free(A->ligne);
     free(A);
   }
 }
 
-// Trouve la hauteur d'un AVL récusrivement
+// Trouve la hauteur d'un AVL
 int AVL_height (AVL *A) {
-  int height_g = 0, height_d = 0;   // fils gauche, fils droit
+  int height_g = 0, height_d = 0;             // H fils gauche et H fils droit
 
   if (A->fg) height_g = AVL_height(A->fg);
   if (A->fd) height_d = AVL_height(A->fd);
 
   if (height_d > height_g) return ++height_d; // On incrémente avant le return
-  else return ++height_g;                     // pour qu'il prenne la bonne val
+  else return ++height_g;                     // pour qu'il prenne la bonne valeur
 }
 
-// Calul le déséquilibre d'un ABR
+// Calul du déséquilibre d'un ABR
 int calcul_desequilibre (AVL *A) {
-  int delta = 0;        // Variable qui stock le déséquilibre
+  int desequilibre = 0;
 
   if(!A) return 0;
 
-  if(A->fd) delta += AVL_height(A->fd);
-  if(A->fg) delta -= AVL_height(A->fg);
+  if(A->fd) desequilibre += AVL_height(A->fd);
+  if(A->fg) desequilibre -= AVL_height(A->fg);
 
-  return delta;
+  return desequilibre;
 }
 
     /////////////////
@@ -107,18 +109,18 @@ AVL *equilibre_noeud (AVL *A) {
   return A;
 }
 
-// Renvoie un mot aléatoire parmis les noeud du tableau
+// Renvoie un mot aléatoire parmis les noeuds du tableau
 char *mot_alea (AVL *A) {
   int H = AVL_height(A);
   int val_alea = rand()%H+1;
 
-  if (val_alea == 1)
+  if (val_alea == 1)                // Valeur pris arbitrairement
     return A->mot;
 
-  if (A->fg && (val_alea<(H/2)))
-    return mot_alea(A->fg);
-  if (A->fd && (val_alea > (H/2)))
-    return mot_alea(A->fd);
+  if (A->fg && (val_alea<(H/2)))    // Arbitrairement, si la valeur aleatoire est
+    return mot_alea(A->fg);         // plus plus petite que la hauteur du noeud
+  if (A->fd && (val_alea > (H/2)))  // aux feuilles, on va chercher dans le
+    return mot_alea(A->fd);         // fils gauche, dans le fils droit sinon.
 
   return A->mot;
 }
@@ -132,6 +134,7 @@ void affichage_avl (AVL* A, char* text) {
   int* L = first_char (text);
 
   printf("\nOccurence du mot %s : %d\n\n",A->mot,A->occ);
+
   for (int i=0 ; i<A->occ ; i++) {
     if (A->ligne[i] != A->ligne[i+1]){
       printf("Ligne %d : ",A->ligne[i]);
@@ -140,8 +143,5 @@ void affichage_avl (AVL* A, char* text) {
     }
   }
 
-}
-
-void affichage_chrono (AVL* A) {
-
+  free(T); free(L);
 }
