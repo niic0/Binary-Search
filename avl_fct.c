@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <time.h>
 #include "avl_fct.h"
-#include "affiche_avl.h"
 #include "text_to_tab.h" // Pour les messages d'erreurs
 
 // Initialise un noeud
@@ -13,9 +14,7 @@ AVL *cree_noeud (char* mot) {
 
   A->fg = NULL; A->fd = NULL;
   A->occ = 1;
-
-  A->mot = malloc(strlen(mot)*sizeof(char*));
-  if (A->mot == NULL) allocation_erreur();
+  A->ligne = calloc(1, sizeof(int));
 
   A->mot = mot;
 
@@ -83,38 +82,45 @@ AVL *rotation_gauche (AVL *A) {
 }
 
 // Equillibre l'arbre pour qu'il devienne un AVL
-AVL *equilibre (AVL *A) {
-  AVL *result = cree_noeud(A->mot);
-
-  // On équilibre chaque fils
-  if(A->fg) A->fg = equilibre(A->fg);
-  if(A->fd) A->fd = equilibre(A->fd);
+AVL *equilibre_noeud (AVL *A) {
 
   int diff = calcul_desequilibre(A); // diff = déséquilibre
 
   if (diff >= 2) {
     if (calcul_desequilibre(A->fd) <= -1) {
-      result->fd = rotation_droite(A->fd);
-      result = rotation_gauche(result);
+      A->fd = rotation_droite(A->fd);
+      A = rotation_gauche(A);
     }
-    else if (calcul_desequilibre(A->fd) >= 1) {
-      result = rotation_gauche(A);
-    }
+    else if (calcul_desequilibre(A->fd) >= 1)
+      A = rotation_gauche(A);
   }
 
   else if (diff <= -2) {
     if (calcul_desequilibre(A->fg) >= 1) {
-      result->fg = rotation_gauche(A->fg);
-      result = rotation_droite(result);
+      A->fg = rotation_gauche(A->fg);
+      A = rotation_droite(A);
     }
-    else if (calcul_desequilibre(A->fg) <= -1) {
-      result = rotation_droite(A);
-    }
+    else if (calcul_desequilibre(A->fg) <= -1)
+      A = rotation_droite(A);
   }
 
-  if(diff>-2 && diff<2) result = A;  // Si rien à faire A est équilibré
+  return A;
+}
 
-  return result;
+// Renvoie un mot aléatoire parmis les noeud du tableau
+char *mot_alea (AVL *A) {
+  int H = AVL_height(A);
+  int val_alea = rand()%H+1;
+
+  if (val_alea == 1)
+    return A->mot;
+
+  if (A->fg && (val_alea<(H/2)))
+    return mot_alea(A->fg);
+  if (A->fd && (val_alea > (H/2)))
+    return mot_alea(A->fd);
+
+  return A->mot;
 }
 
           /////////////////
@@ -123,14 +129,17 @@ AVL *equilibre (AVL *A) {
 
 void affichage_avl (AVL* A, char* text) {
   char* T = char_to_tab (text);
-  int* L = first_char(text);
+  int* L = first_char (text);
 
-  printf("Occurence du mot %s : %d\n",A->mot,A->occ);
-  for (int i=1 ; i<A->occ ; i++) {
-    printf("ligne %d :\n",A->ligne[i]);
-    for (int k=L[A->ligne[i]] ; k<L[A->ligne[i+1]] ; k++)
-      printf("%c\n",T[i]);
+  printf("\nOccurence du mot %s : %d\n\n",A->mot,A->occ);
+  for (int i=0 ; i<A->occ ; i++) {
+    if (A->ligne[i] != A->ligne[i+1]){
+      printf("Ligne %d : ",A->ligne[i]);
+      for (int k=L[A->ligne[i]] ; k<L[A->ligne[i]+1] ; k++)
+        printf("%c",T[k]);
+    }
   }
+
 }
 
 void affichage_chrono (AVL* A) {

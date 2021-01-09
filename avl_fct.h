@@ -10,6 +10,7 @@ int AVL_height (AVL *A);
 int calcul_desequilibre (AVL *A);
 AVL *rotation_gauche (AVL *A);
 AVL *rotation_droite (AVL *A);
-AVL *equilibre (AVL *A);
+AVL *equilibre_noeud (AVL *A);
 void libere_memoire(AVL *A);
 void affichage_avl (AVL* A, char* text);
+char *mot_alea (AVL *A);

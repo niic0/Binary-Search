@@ -50,7 +50,7 @@ char* char_to_tab (char *text) {
 
   int nbr_char = taille_fic(text);
 
-  char *T = malloc(nbr_char*(sizeof(char)));
+  char *T = malloc(nbr_char*(sizeof(char))+1);
   if(T == NULL) allocation_erreur();
 
   for (int i=0 ; i<=nbr_char ; i++) T[i] = fgetc(F);
@@ -59,7 +59,7 @@ char* char_to_tab (char *text) {
   return T;
 }
 
-//
+// Premier caractère de chaque lignes
 int* first_char (char *text) {
   FILE *F = fopen(text,"r");
   verif_fic(text);
@@ -67,14 +67,14 @@ int* first_char (char *text) {
   int nbr_char = taille_fic(text);
   int nbr_lignes = cmt_lignes(text);
 
-  int *L = malloc(nbr_lignes*(sizeof(int)));
+  int *L = malloc(nbr_lignes*(sizeof(int))+1);
   if(L == NULL) allocation_erreur();
-
+  L[1]=0;
   int ligne = 1;
 
   for (int i=0 ; i<=nbr_char ; i++) {
     if(fgetc(F) == '\n') {
-      L[ligne] = i+1;
+      L[ligne+1] = i+1;
       ligne++;
     }
   }
