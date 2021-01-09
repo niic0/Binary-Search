@@ -56,7 +56,7 @@ AVL *insert_mot (AVL* A, char *mot, int ligne) {
 AVL *tab_to_AVL (AVL* A, char *fic) {
   chrono_reset();
   char *T = char_to_tab(fic);
-  printf("\nInitialisation : %f s\n", chrono_lap());
+  printf("\nInitialisation : %18f s\n", chrono_lap());
 
   int nbr_char = taille_fic(fic);
 
@@ -68,7 +68,7 @@ AVL *tab_to_AVL (AVL* A, char *fic) {
   int ligne_actuelle = 1;   // Repère de ligne à insérer dans le mot
 
   for (int i=0 ; i<=nbr_char ; i++) {
-    if ((isspace(T[i]) || ispunct(T[i])) && isalpha(T[i-1])) {
+    if (!isalpha(T[i])) {
       strcat(mot_tmp,"\0");
       mot_abr = malloc((strlen(mot_tmp)+1)*sizeof(char));
       strcpy(mot_abr,mot_tmp);
@@ -84,11 +84,11 @@ AVL *tab_to_AVL (AVL* A, char *fic) {
       ligne_actuelle++;
   }
 
-  printf("Construction AVL : %f s\n", chrono_lap());
+  printf("Construction AVL : %16f s\n", chrono_lap());
 
   free(T);
   free(mot_tmp);
   free(mot_abr);
-  
+
   return A;
 }
