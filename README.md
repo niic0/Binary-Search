@@ -607,8 +607,6 @@ int main (int argc, char *argv[]){
     srand(getpid());
     chrono_reset();
     for (int i=0 ; i<1000 ; i++) {
-
-      srand(getpid());
       mot = mot_alea(A);
       noeud_a_trouver = search(A,mot);
     }
