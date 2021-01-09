@@ -17,11 +17,11 @@ int main (int argc, char *argv[]){
     char* mot;
     srand(getpid());
     chrono_reset();
-    for (int i=0 ; i<1000 ; i++) {
 
-      srand(getpid());
+    for (int i=0 ; i<1000 ; i++) {
       mot = mot_alea(A);
       noeud_a_trouver = search(A,mot);
+      printf("%s\n",mot);
     }
 
     printf("Recherche pour 1000 mots : %f s\n\n", chrono_lap());
